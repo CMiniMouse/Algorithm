@@ -3,31 +3,48 @@
 
 void Merge(int *pArray, int left, int mid, int right)
 {
-    int iLen = right - left + 1
-    int iTemp[iLen] = {0};
-    
-    for (int i = 0; i < iLen; i++)
+    int iLen = right - left + 1;
+    int iTempA[mid - left + 1];
+    int iTempB[right - mid];
+
+    for (int i = 0; i < mid - left + 1; i++)
     {
-        iTemp[i] = pArray[left + i];
+        iTempA[i] = pArray[left + i];
     }
-    
+
+    for (int i = 0; i < right - mid; i++)
+    {
+	iTempB[i] = pArray[mid + i + 1];
+    }
+
     int iIterL = 0;
-    int iIterR = iLen/2;
+    int iIterR = 0;
     
     for (int i = 0; i < iLen; i++)
     {
-        if (iTemp[iIterL] < iTemp[iIterR])
+        if (iIterR >= (right - mid))
+	{
+	    pArray[left +i] = iTempA[iIterL];
+            return;
+	}
+ 	if(iIterL >= (mid - left + 1))
+	{
+	    pArray[left +i] = iTempB[iIterR];
+ 	    return;
+	}
+        if (iTempA[iIterL] < iTempB[iIterR])
         {
-            pArray[left +i] = iTemp[iIterL];
+            pArray[left +i] = iTempA[iIterL];
             iIterL++;
         }
         else
         {
-            pArray[left +i] = iTemp[iIterR];
+            pArray[left +i] = iTempB[iIterR];
             iIterR++;
         }
     }
-    
+
+    return;
 }
 
 void MergeSort(int *pArray, int left, int right)
@@ -44,14 +61,15 @@ void MergeSort(int *pArray, int left, int right)
 int main()
 {
     int iArray[] = {38,27,43,3,9,82,10};
+    int iLen = sizeof(iArray)/sizeof(int); 
+    MergeSort(iArray, 0, iLen-1);
     
-    MergeSort(iArray, 0, 6);
-    
-    printf("MergeSort result is:\n")
-    for(int i = 0; i < 7; i++)
+    printf("MergeSort result is:\n");
+    for(int i = 0; i < iLen; i++)
     {
         printf("%d,", iArray[i]);
     }
     
+    printf("\n");
     return 0;
 }
