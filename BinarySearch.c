@@ -1,5 +1,4 @@
 #include<stdio.h>
-
 int BinarySearch(int iArray[], int iTarget, int iNum)
 {
     int left = 0;
